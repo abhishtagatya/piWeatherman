@@ -11,7 +11,12 @@ from module.uimap import *
 from module.weather_api import OpenWeatherAPI
 
 import requests
-import tkinter
+
+try :
+    import Tkinter as tkinter
+except ImportError:
+    import tkinter
+
 from tkinter.constants import *
 import tkinter.messagebox
 from PIL import Image, ImageTk
@@ -266,10 +271,15 @@ if __name__ == '__main__':
         return fullscreen
 
     app = App(root, title, user)
-    root.iconphoto(True, ImageTk.PhotoImage(Image.open('assets/image/icon/icon.ico')))
+    icon = ImageTk.PhotoImage(Image.open('assets/image/icon/icon.ico'))
+
+    # Compatible with python 2 and python 3
+    root.tk.call('wm', 'iconphoto', root._w, icon)
+
     try :
         root.bind("<F11>", lambda event : root.attributes('-fullscreen', fullscreenToggle()))
         root.bind("<Escape>", lambda event:root.destroy())
         root.mainloop()
     except(EOFError, KeyboardInterrupt) :
+        root.destroy()
         sys.exit()
