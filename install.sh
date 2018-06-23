@@ -15,8 +15,15 @@ install_module() {
   # Change this if you are not running Linux or Raspbian (Debian based distribution)
   # TODO : Set installer to be os independent
 
-  sudo apt-get install python3-pip python-pip python-imaging python-imaging-tk python3-pil python3-pil.imagetk
-  sudo pip3 install -r requirements.txt --upgrade
+  # Install Packages
+  while read package; do
+    sudo apt-get install $package
+  done < packages.txt
+
+  # Install Pip Modules
+  while read module; do
+    sudo pip install $module --upgrade
+  done < requirements.txt
 
 }
 
@@ -33,7 +40,11 @@ fi
 printf '\nLooks like all your dependencies has been installed...'
 printf '\nProceeding to application, make sure your datetime is correct'
 
-python3 app.py
+python app.py
 
 printf '\nThank you for using piWeatherman\n'
+
+# Deletes Caches
+find . -name \*.pyc -delete
+
 exit 0
