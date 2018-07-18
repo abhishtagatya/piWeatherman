@@ -163,3 +163,15 @@ ui_map = {
         }
     }
 }
+
+weather_code_range = [
+            (range(200,233), 'thunderstorm'),
+            (range(300, 322), 'rain'),
+            (range(500, 532), 'rain'),
+            (range(600, 622), 'snow'),
+            (range(701,782), 'mist'),
+            ([800], 'clear sky'),
+            ([801], 'few clouds'),
+            ([802], 'scattered clouds'),
+            ([803,804], 'broken clouds')
+            ]

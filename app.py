@@ -133,8 +133,15 @@ class App:
                 sys.exit()
 
             # Color Scheme (sort by element) open module/uimap for changes
-            key_descriptor = weather_now['weather'][0]['description']
+            weather_id = weather_now['weather'][0]['id']
             hour_now = time.strftime('%H')
+
+            # This maps the weather from uimap.py and https://openweathermap.org/weather-conditions
+            for id, name in weather_code_range:
+                if (weather_id in id):
+                    key_descriptor = name
+                    break
+            # Find a better method to map this
 
             FOREGROUND = ui_map['foreground']
             if int(hour_now) >= 6 and int(hour_now) <= 18:
@@ -274,7 +281,10 @@ if __name__ == '__main__':
     icon = ImageTk.PhotoImage(Image.open('assets/image/icon/icon.ico'))
 
     # Compatible with python 2 and python 3
-    root.tk.call('wm', 'iconphoto', root._w, icon)
+    try :
+        root.iconphoto(True, icon)
+    except AttributeError:
+        root.tk.call('wm', 'iconphoto', root._w, icon)
 
     try :
         root.bind("<F11>", lambda event : root.attributes('-fullscreen', fullscreenToggle()))
